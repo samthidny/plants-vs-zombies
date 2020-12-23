@@ -1,0 +1,32 @@
+.row {
+  position: absolute;
+}
+
+.square {
+  position: absolute;
+  background-color: darkgreen;
+  border: 1px solid black;
+}
+
+.zombie {
+  position: absolute;
+  background-image: url('images/zombie-1.png');
+  background-size: 60%;
+  background-repeat: no-repeat;
+  
+}
+
+.green-light {
+  background-color: #0fbe1b
+}
+
+.green-med {
+  background-color: #019d17
+}
+
+.green-dark {
+  background-color: #0a8d13;
+}
+
+
+

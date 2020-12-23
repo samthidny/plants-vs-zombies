@@ -8,6 +8,18 @@ export default class Zombie {
   public eventEmitter: EventEmitter;
   public squareN: number;
   public health: number;
+  private _state: string;
+
+
+  public set state(value: string) {
+    const oldState:string = this._state;
+    this._state = value;
+    this.eventEmitter.emit('state-change', this, oldState);
+  }
+
+  public get state() {
+    return this._state;
+  }
 
   public static create(): Zombie {
     const zombie = new Zombie();

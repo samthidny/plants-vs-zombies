@@ -78,6 +78,15 @@ export default class Renderer {
     
     this._zombiesToEl.set(zombie, el);
 
+    zombie.eventEmitter.addListener('state-change', (zombie: Zombie, oldState: string) => {
+      console.log('Renderer heard Zombie state change ', zombie.state);
+      el.classList.remove(oldState);
+      if (zombie.state) {
+        el.classList.add(zombie.state);
+      }
+      
+    });
+
     if(this.debug) {
       this.addDebugger(el, zombie);
     }
@@ -161,7 +170,6 @@ export default class Renderer {
     gameContainer.querySelectorAll('.square').forEach((square: HTMLElement) => {
       square.addEventListener('click', () => {
         console.log('Square Click!');
-
         this.eventEmitter.emit('square-click', square.getAttribute('row'), square.getAttribute('col'))
       });
     })
@@ -174,6 +182,7 @@ export default class Renderer {
         if (zombieEl) {
           //zombieEl.innerHTML = zombie.squareN + '';
           zombieEl.style.left = `${this._zombieStartX - (zombie.progress * this._zombieStartX)}px`;
+          // zombieEl.classList.add(zombie.state);
           if (this.debug) {
             this.updateDebugger(zombieEl, zombie);
           }

@@ -23,10 +23,6 @@ export default class Game {
       this.addPlantToModel(row, col);
     })
 
-    // this._model.eventEmitter.addListener('plant-added', (square: Square) => {
-    //   console.log('Game heard model plant-added', square);
-    // })
-
     this.startGame();
   }
 
@@ -44,7 +40,9 @@ export default class Game {
         zombie.squareN = squareN;
         const zombieSquare: Square = row.squares[squareN];
 
+        // If Zombie is eating a plant
         if(zombieSquare && zombieSquare.plant) {
+          zombie.state = 'eating';
           zombieSquare.plant.health -= 0.02;
           zombie.health -= 0.03;
           if(zombie.health <= 0) {
@@ -52,9 +50,13 @@ export default class Game {
           }
           if (zombieSquare.plant.health <= 0) {
             zombieSquare.plant.destroy();
+            zombie.state = '';
           }
         } 
         else {
+          if(zombie.state) { 
+            zombie.state = '';
+          }
           zombie.progress += 0.001;
         }
 
@@ -64,7 +66,7 @@ export default class Game {
         }
       });
 
-      if(this.randomAdd() && row.zombies.length < 1) {
+      if(this.randomAdd() && row.zombies.length < 10) {
         row.addZombie(Zombie.create());
       }
 
@@ -76,12 +78,12 @@ export default class Game {
   }
 
   private randomAdd(): boolean {
-   return Math.random() < 0.05;
+   return Math.random() < 0.005;
   }
 
   public startGame() {
     //this.gameLoop();
-    setInterval(this.gameLoop.bind(this), 100);
+    setInterval(this.gameLoop.bind(this), 50);
   }
 
   private addPlantToModel(row, col): void {

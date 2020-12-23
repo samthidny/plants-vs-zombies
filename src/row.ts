@@ -12,7 +12,7 @@ export default class Row {
     const row = new Row(index);
 
     for(let i:number = 0; i < numCols; i++) {
-      const square = new Square(0, i);
+      const square = new Square(index, i);
       row.squares.push(square);
       square.eventEmitter.addListener('plant-added', (square:Square) => {
         console.log('Row plant added ', square);
@@ -29,10 +29,6 @@ export default class Row {
     this.zombies = [];
     this.eventEmitter = new EventEmitter();
   }
-
-  // private plantAddedHandler(square:Square): void {
-  //   console.log('Row plant added ', square);
-  // }
 
   public addZombie(zombie: Zombie) {
     zombie.parent = this;

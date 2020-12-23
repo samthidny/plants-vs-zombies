@@ -6,7 +6,7 @@ import Zombie from "./zombie";
 export default class Model {
 
   public numCols:number = 9;
-  public numRows:number = 1;
+  public numRows:number = 5;
   public eventEmitter: EventEmitter;
 
   public rows: Row[];

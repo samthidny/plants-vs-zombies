@@ -1,19 +1,29 @@
+import EventEmitter from "eventemitter3";
 import Level from "./level";
 import Model from "./model";
+import Plant from "./plant";
 import Row from "./row";
 import Square from "./square";
 import Zombie from "./zombie";
 
 export default class Renderer {
 
+  public debug: boolean = true;
   private _squareSize: number = 100;
   private _zombieStartX: number;
-
   private _zombiesToEl:Map<Zombie, HTMLElement>;
+  public eventEmitter: EventEmitter;
   
   constructor(private _model: Model) {
-      this._zombieStartX = this._model.numCols * this._squareSize;
-      this._zombiesToEl = new Map<Zombie, HTMLElement>();
+    this.eventEmitter = new EventEmitter():
+    this._zombieStartX = this._model.numCols * this._squareSize;
+    this._zombiesToEl = new Map<Zombie, HTMLElement>();
+
+    this._model.eventEmitter.addListener('plant-added', (square: Square) => {
+      console.log('renderer heard model plant-added');
+      this.addPlant(square);
+
+    });
   }
 
   private creatRow(row: Row, rowIndex: number) {
@@ -24,6 +34,9 @@ export default class Renderer {
     // Add squares to row
     row.squares.forEach((square: Square, colIndex: number) => {
       const squareEl = this.createSquare(colIndex);
+      squareEl.setAttribute('row', String(rowIndex));
+      squareEl.setAttribute('col', String(colIndex));
+      
       const n = (rowIndex * this._model.numCols) + colIndex;
       const styles = ['green-light', 'green-med', 'green-dark'];
       let c = 0;
@@ -33,7 +46,7 @@ export default class Renderer {
       if (rowIndex % 2 !== 0) {
         c++;
       }
-      
+      squareEl.classList.add('square');
       squareEl.classList.add(styles[c]);
       el.appendChild(squareEl);
 
@@ -57,7 +70,7 @@ export default class Renderer {
   private createZombie(zombie: Zombie) {
     const el = document.createElement('div');
     el.classList.add('zombie');
-    //el.innerHTML = 'ZOMBIE';
+    // el.innerHTML = 'ZOMBIE';
     el.style.left = `${this._squareSize * this._model.numCols}px`;
 
     el.style.width = `${this._squareSize}px`;
@@ -65,6 +78,9 @@ export default class Renderer {
     
     this._zombiesToEl.set(zombie, el);
 
+    if(this.debug) {
+      this.addDebugger(el, zombie);
+    }
     return el;
   }
 
@@ -75,6 +91,46 @@ export default class Renderer {
     }
   }
 
+
+  private addPlant(square: Square) {
+    const el = document.createElement('div');
+    el.classList.add('plant');
+    el.innerHTML = 'PLANT' + square.plant.type;
+
+    const squareEl:HTMLElement = this.getSquareElement(square);
+    squareEl.appendChild(el);
+
+    square.eventEmitter.addListener('destroy', this.removePlantHandler.bind(this));
+
+    return el;
+  }
+
+  private removePlantHandler(square:Square): void {
+    console.log('renderer destroy plant');
+    const squareEl:HTMLElement = this.getSquareElement(square);
+    const plantEl: HTMLElement = squareEl.querySelector('.plant');
+    squareEl.removeChild(plantEl);
+  }
+
+  private getSquareElement(square: Square): HTMLElement {
+    return document.querySelector(`.square[row="${square.rowIndex}"][col="${square.colIndex}"]`);
+  }
+
+
+  private addDebugger(el: HTMLElement, zombie: Zombie) {
+    const info:HTMLElement = document.createElement('div');
+    info.classList.add('debugger');
+    info.innerHTML = 'I am a debugger';
+    el.appendChild(info);
+
+  }
+
+  private updateDebugger(el: HTMLElement, zombie: Zombie): void {
+    const debuggerEl: HTMLElement = el.querySelector('.debugger');
+    if (debuggerEl) {
+      debuggerEl.innerHTML = '' + parseInt(zombie.health * 100, 10);
+    }
+  }
 
   init() {
 
@@ -102,16 +158,41 @@ export default class Renderer {
 
     });
 
+    gameContainer.querySelectorAll('.square').forEach((square: HTMLElement) => {
+      square.addEventListener('click', () => {
+        console.log('Square Click!');
+
+        this.eventEmitter.emit('square-click', square.getAttribute('row'), square.getAttribute('col'))
+      });
+    })
   }
 
   render(): void {  
     this._model.rows.forEach((row:Row, index: number) => {
       row.zombies.forEach((zombie: Zombie) => {
         const zombieEl = this._zombiesToEl.get(zombie);
-        if(zombieEl) {
-          zombieEl.style.left = `${this._zombieStartX - (zombie.progress * this._zombieStartX)}px`;  
+        if (zombieEl) {
+          //zombieEl.innerHTML = zombie.squareN + '';
+          zombieEl.style.left = `${this._zombieStartX - (zombie.progress * this._zombieStartX)}px`;
+          if (this.debug) {
+            this.updateDebugger(zombieEl, zombie);
+          }
+        }  
+      });
+
+
+      row.squares.forEach((square: Square) => {
+        const squareEl:HTMLElement = this.getSquareElement(square);
+        if (square.plant) {
+          const plant = squareEl.querySelector('.plant');
+          plant.innerHTML = `Health ${square.plant.health}`;
         }
         
+        // const zombieEl = this._zombiesToEl.get(zombie);
+        // if (zombieEl) {
+        //   zombieEl.innerHTML = zombie.squareN + '';
+        //   zombieEl.style.left = `${this._zombieStartX - (zombie.progress * this._zombieStartX)}px`;  
+        // }  
       });
 
     });

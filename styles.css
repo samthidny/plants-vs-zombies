@@ -16,6 +16,17 @@
   
 }
 
+.plant {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url('images/cherry.png');
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+}
+
 .green-light {
   background-color: #0fbe1b
 }
@@ -28,5 +39,11 @@
   background-color: #0a8d13;
 }
 
+.debugger {
+  color: lightgreen;
+  /* background-color: black; */
+  width: 200px;
+  height: 100px;
+}
 
 

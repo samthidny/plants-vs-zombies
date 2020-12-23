@@ -8,16 +8,31 @@ export default class Row {
   public squares: Square[];
   public eventEmitter: EventEmitter;
 
-  public static create(numCols: number) {
-    const row = new Row();
+  public static create(numCols: number, index: number) {
+    const row = new Row(index);
 
     for(let i:number = 0; i < numCols; i++) {
-      const square = new Square();
+      const square = new Square(0, i);
       row.squares.push(square);
+      square.eventEmitter.addListener('plant-added', (square:Square) => {
+        console.log('Row plant added ', square);
+        row.eventEmitter.emit('plant-added', square);
+      });
+      );
     }
 
     return row;
   }
+
+  constructor(public index: number) {
+    this.squares = [];
+    this.zombies = [];
+    this.eventEmitter = new EventEmitter();
+  }
+
+  // private plantAddedHandler(square:Square): void {
+  //   console.log('Row plant added ', square);
+  // }
 
   public addZombie(zombie: Zombie) {
     zombie.parent = this;
@@ -40,10 +55,6 @@ export default class Row {
     this.eventEmitter.emit('remove', zombie);
   }
 
-  constructor() {
-    this.squares = [];
-    this.zombies = [];
-    this.eventEmitter = new EventEmitter();
-  }
+
 
 }

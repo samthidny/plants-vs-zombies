@@ -70,6 +70,7 @@ export default class Renderer {
   private createZombie(zombie: Zombie) {
     const el = document.createElement('div');
     el.classList.add('zombie');
+    el.setAttribute('type', zombie.type);
     // el.innerHTML = 'ZOMBIE';
     el.style.left = `${this._squareSize * this._model.numCols}px`;
 

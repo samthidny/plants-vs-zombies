@@ -8,12 +8,22 @@
   border: 1px solid black;
 }
 
+.square:hover {
+  background-color: green;
+}
+
 .zombie {
   position: absolute;
   background-image: url('images/zombie-1.png');
-  background-size: 60%;
+  background-size: 47%;
   background-repeat: no-repeat;
   pointer-events: none;
+  background-position-y: bottom;
+}
+
+.zombie[type="1"]{
+  background-image: url('images/zombie-2.png');
+  background-size: 45%;
 }
 
 .eating {

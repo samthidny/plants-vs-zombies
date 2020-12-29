@@ -57,7 +57,7 @@ export default class Game {
           if(zombie.state) { 
             zombie.state = '';
           }
-          zombie.progress += 0.001;
+          zombie.progress += 0.001 * zombie.speed;
         }
 
         // Destroy Zombie when reaches end
@@ -88,8 +88,13 @@ export default class Game {
 
   private addPlantToModel(row, col): void {
     console.log('Game.addPlant', row, col);
+    const square: Square = this._model.rows[row].squares[col];
+    if (square.plant) {
+      console.log('Square already has a plant');
+      return;
+    }
     const plant = new Plant();
-    this._model.rows[row].squares[col].addPlant(plant);
+    square.addPlant(plant);
   }
 
 }

@@ -105,7 +105,9 @@ export default class Renderer {
   private addPlant(square: Square) {
     const el = document.createElement('div');
     el.classList.add('plant');
+-
     el.innerHTML = 'PLANT' + square.plant.type;
+    el.setAttribute('type', '' + square.plant.type);
 
     const squareEl:HTMLElement = this.getSquareElement(square);
     squareEl.appendChild(el);
@@ -195,7 +197,7 @@ export default class Renderer {
         const squareEl:HTMLElement = this.getSquareElement(square);
         if (square.plant) {
           const plant = squareEl.querySelector('.plant');
-          plant.innerHTML = `Health ${square.plant.health}`;
+          plant.innerHTML = `${square.plant.type} - ${square.plant.health}`;
         }
         
         // const zombieEl = this._zombiesToEl.get(zombie);

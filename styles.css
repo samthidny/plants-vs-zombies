@@ -54,8 +54,19 @@
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
-  
 }
+
+.plant[type="0"]{
+  background-image: url('images/brick.png');
+  background-size: 45%;
+}
+
+.plant[type="1"]{
+  background-image: url('images/salad.png');
+  background-size: 45%;
+}
+
+
 
 .green-light {
   background-color: #0fbe1b

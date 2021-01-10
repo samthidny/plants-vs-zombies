@@ -22,7 +22,6 @@ export default class Renderer {
     this._model.eventEmitter.addListener('plant-added', (square: Square) => {
       console.log('renderer heard model plant-added');
       this.addPlant(square);
-
     });
   }
 
@@ -50,8 +49,7 @@ export default class Renderer {
       squareEl.classList.add(styles[c]);
       el.appendChild(squareEl);
 
-    })
-    
+    });
     
     return el;
   }
@@ -85,7 +83,6 @@ export default class Renderer {
       if (zombie.state) {
         el.classList.add(zombie.state);
       }
-      
     });
 
     if(this.debug) {
@@ -105,6 +102,7 @@ export default class Renderer {
   private addPlant(square: Square) {
     const el = document.createElement('div');
     el.classList.add('plant');
+    el.classList.add('plantish');
 -
     el.innerHTML = 'PLANT' + square.plant.type;
     el.setAttribute('type', '' + square.plant.type);
@@ -148,6 +146,15 @@ export default class Renderer {
 
     const gameContainer = document.querySelector('#game');
 
+    // Plant Menu
+    document.querySelectorAll('.plant-button').forEach((button: HTMLElement) => {
+      button.addEventListener('click', () => {
+        console.log('Select plant ' + button.getAttribute('type'));
+        this.eventEmitter.emit('plant-selected', button.getAttribute('type'));
+      })
+    });
+
+
     this._model.rows.forEach((row:Row, index: number) => {
       row.eventEmitter.addListener('remove', (zombie: Zombie) => {
         // Remove zombie sprite
@@ -155,6 +162,7 @@ export default class Renderer {
         el.parentElement.removeChild(el);
       })
       const rowEl = this.creatRow(row, index);
+      //rowEl.style.zIndex = -10000;
       gameContainer.appendChild(rowEl);
 
       // render zombies
@@ -189,7 +197,7 @@ export default class Renderer {
           if (this.debug) {
             this.updateDebugger(zombieEl, zombie);
           }
-        }  
+        }
       });
 
 

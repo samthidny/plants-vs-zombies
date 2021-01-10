@@ -16,6 +16,7 @@ export default class Game {
   private _zombieSpecs: ZombieSpec[];
   private _endGame: boolean;
   private _entityManager: EntityManager;
+  private _currentPlant: Number = 0;
   
   constructor() {
     // TODO make singleton
@@ -25,8 +26,13 @@ export default class Game {
     this._renderer.init();
     this._renderer.eventEmitter.addListener('square-click', (row, col) => {
       console.log('Game square-click ', row, col);
-      this.addPlantToModel(row, col);
-    })
+      this.addPlantToModel(row, col, this._currentPlant);
+    });
+
+    this._renderer.eventEmitter.addListener('plant-selected', (id) => {
+      console.log('Game plant selected ' + id);
+      this._currentPlant = id;
+    });
 
     this.startGame();
   }
@@ -103,7 +109,7 @@ export default class Game {
     setInterval(this.gameLoop.bind(this), 50);
   }
 
-  private addPlantToModel(row, col): void {
+  private addPlantToModel(row, col, plantID): void {
     console.log('Game.addPlant', row, col);
     const square: Square = this._model.rows[row].squares[col];
     if (square.plant) {
@@ -111,7 +117,7 @@ export default class Game {
       return;
     }
     
-    const plantID:number = Math.round(Math.random());
+    //const plantID:number = Math.round(Math.random() * (this._entityManager.numPlants - 1));
     const plant = this._entityManager.createPlant(plantID);
     square.addPlant(plant);
   }

@@ -8,6 +8,9 @@ export default class EntityManager {
   private _zombieSpecs: ZombieSpec[];
   private _plantSpecs: PlantSpec[];
   
+  public get numPlants(): int {
+    return this._plantSpecs.length;
+  }
 
   constructor() {
     this._zombieSpecs = [];
@@ -42,6 +45,19 @@ export default class EntityManager {
     plant.toughness = 0.1;
     this._plantSpecs.push(plant);
 
+    plant = new PlantSpec();
+    plant.type = 2;
+    plant.name = 'Chilli';
+    plant.toughness = 0.6;
+    this._plantSpecs.push(plant);
+
+    plant = new PlantSpec();
+    plant.type = 3;
+    plant.name = 'Cherry';
+    plant.toughness = 0.2;
+    this._plantSpecs.push(plant);
+
+  
   }
 
   public createZombie(type: number): Zombie {

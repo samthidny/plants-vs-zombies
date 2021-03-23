@@ -2,6 +2,7 @@ import EventEmitter from "eventemitter3";
 import Level from "./level";
 import Model from "./model";
 import Plant from "./plant";
+import PlantSpec from "./plant-spec";
 import Row from "./row";
 import Square from "./square";
 import Zombie from "./zombie";
@@ -23,6 +24,20 @@ export default class Renderer {
       console.log('renderer heard model plant-added');
       this.addPlant(square);
     });
+  }
+
+  private createPlantMenu() {
+    const menuHolder = document.querySelector('#plant-menu');
+    this._model.plants.forEach((plantSpec:PlantSpec, index: number) => {
+      const plantButton:HTMLElement = document.createElement('div');
+      plantButton.innerHTML = `
+        <div class="plantish plant-button" type="${index}">
+          Plant ${index}
+        </div>
+      `;
+      menuHolder.appendChild(plantButton);
+    });
+
   }
 
   private creatRow(row: Row, rowIndex: number) {
@@ -78,7 +93,7 @@ export default class Renderer {
     this._zombiesToEl.set(zombie, el);
 
     zombie.eventEmitter.addListener('state-change', (zombie: Zombie, oldState: string) => {
-      console.log('Renderer heard Zombie state change ', zombie.state);
+      //console.log('Renderer heard Zombie state change ', zombie.state);
       el.classList.remove(oldState);
       if (zombie.state) {
         el.classList.add(zombie.state);
@@ -146,6 +161,8 @@ export default class Renderer {
 
     const gameContainer = document.querySelector('#game');
 
+    this.createPlantMenu();
+
     // Plant Menu
     document.querySelectorAll('.plant-button').forEach((button: HTMLElement) => {
       button.addEventListener('click', () => {
@@ -184,6 +201,7 @@ export default class Renderer {
         this.eventEmitter.emit('square-click', square.getAttribute('row'), square.getAttribute('col'))
       });
     })
+
   }
 
   render(): void {  

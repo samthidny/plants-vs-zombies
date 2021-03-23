@@ -14,6 +14,7 @@ export default class Zombie {
 
   public speed: number;
   public attack: number;
+  public toughness: number;
 
   public set state(value: string) {
     const oldState:string = this._state;
@@ -32,6 +33,8 @@ export default class Zombie {
     zombie.health = 1;
     zombie.speed = spec.speed || 1;
     zombie.attack = spec.attack || 1;
+    zombie.toughness = spec.toughness || 1;
+    
     
     return zombie;
   }

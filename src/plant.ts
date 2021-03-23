@@ -7,7 +7,9 @@ export default class Plant {
   public type: number;
   public health: number = 1;
 
-  public toughness: number;
+  public toughness: number = 0;
+  public attack: number = 0;
+  
 
   constructor() {
 
@@ -22,6 +24,7 @@ export default class Plant {
     const plant = new Plant();
     plant.type = spec.type || 0;
     plant.toughness = spec.toughness || 0.5;
+    plant.attack = spec.attack || 0.5;
     
     return plant;
   }

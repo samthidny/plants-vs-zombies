@@ -1,0 +1,152 @@
+#game-holder {
+  border: 3px solid red;
+  background-color: purple;
+  height: 100%;
+}
+
+#plant-menu {
+  background-color: green;
+  height: 100px;
+}
+
+.plant-button {
+  float: left;
+  width: 100px;
+  height: 100px;
+  border: 1px solid white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+}
+
+.plant-button:hover {
+  background-color: white;
+}
+
+/* [type="0"]{
+  background-image: url('images/brick.png');
+  background-size: 35%;
+}
+
+[type="1"]{
+  background-image: url('images/salad.png');
+
+}
+
+[type="2"]{
+  background-image: url('images/jalapeno.png');
+}
+
+[type="3"]{
+  background-image: url('images/cherry.png');
+} */
+
+
+#game {
+  width: 800px;
+  height: 400px;
+  border: 2px solid yellow;
+  position: relative;
+}
+
+.row {
+  position: absolute;
+}
+
+.square {
+  position: absolute;
+  background-color: darkgreen;
+  border: 1px solid black;
+}
+
+.square:hover {
+  background-color: green;
+}
+
+.zombie {
+  position: absolute;
+  background-image: url('/zombie-1.2615ef36.png');
+  background-size: 47%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  background-position-y: bottom;
+}
+
+.zombie[type="1"]{
+  background-image: url('/zombie-2.da55baed.png');
+  background-size: 45%;
+}
+
+.eating {
+  animation: shake 0.4s infinite linear;;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  25%, 75% {
+    transform: translate3d(-1px, 0, 0);
+
+  }
+  
+  50% {
+    transform: translate3d(-4px, 0, 0);
+    transform: skewX(10deg);
+  }
+ 
+}
+
+.plant {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.plantish[type="0"]{
+  background-image: url('/brick.c88eb3ed.png');
+  background-size: 45%;
+}
+
+.plantish[type="1"]{
+  background-image: url('/salad.9a2af01f.png');
+  background-size: 45%;
+}
+
+/** Chilli */
+.plantish[type="2"]{
+  background-image: url('/jalapeno.d8942224.png');
+  background-size: 35%;
+}
+
+/** Cherry */
+.plantish[type="3"]{
+  background-image: url('/cherry.201d7e04.png');
+  background-size: 100%;
+}
+
+.green-light {
+  background-color: #0fbe1b
+}
+
+.green-med {
+  background-color: #019d17
+}
+
+.green-dark {
+  background-color: #0a8d13;
+}
+
+.debugger {
+  color: lightgreen;
+  /* background-color: black; */
+  width: 200px;
+  height: 100px;
+}
+
+
+
+
+/*# sourceMappingURL=/styles.8986bff4.css.map */

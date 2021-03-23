@@ -1,0 +1,1 @@
+{"version":3,"sources":["src/game.ts"],"names":[],"mappings":"AAAA,IAAA,IAAA;AAAA;AAAA,YAAA;AAGE,WAAA,IAAA,GAAA;AACE,IAAA,OAAO,CAAC,GAAR,CAAY,kBAAZ;AACD;;AAGH,SAAA,IAAA;AARA,CAAA,EAAA","file":"game.ce49b8ae.js","sourceRoot":"..","sourcesContent":["class Game {\n\n\n  constructor() {\n    console.log('Game istansiated');\n  }\n\n\n}"]}

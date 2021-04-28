@@ -145,7 +145,7 @@ export default class Renderer {
   private addDebugger(el: HTMLElement, zombie: Zombie) {
     const info:HTMLElement = document.createElement('div');
     info.classList.add('debugger');
-    info.innerHTML = 'I am a debugger';
+    info.innerHTML = '';
     el.appendChild(info);
 
   }

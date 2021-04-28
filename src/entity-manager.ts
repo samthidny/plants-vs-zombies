@@ -19,14 +19,14 @@ export default class EntityManager {
     let zombie: ZombieSpec = new ZombieSpec();
     zombie.type = 0;
     zombie.name = 'Normal';
-    zombie.speed = 0.8;
-    zombie.attack = 0.9;
+    zombie.speed = 0.6;
+    zombie.attack = 0.5;
     this._zombieSpecs.push(zombie);
 
     zombie = new ZombieSpec();
     zombie.type = 1;
     zombie.name = 'Cone Head';
-    zombie.speed = 0.2;
+    zombie.speed = 0.4;
     zombie.attack = 0.9;
     this._zombieSpecs.push(zombie);
 
@@ -48,13 +48,14 @@ export default class EntityManager {
     plant = new PlantSpec();
     plant.type = 2;
     plant.name = 'Chilli';
-    plant.toughness = 0.6;
+    plant.toughness = 0.8;
+    plant.attack = 0.8;
     this._plantSpecs.push(plant);
 
     plant = new PlantSpec();
     plant.type = 3;
     plant.name = 'Cherry';
-    plant.toughness = 0.2;
+    plant.toughness = 0.5;
     this._plantSpecs.push(plant);
 
   

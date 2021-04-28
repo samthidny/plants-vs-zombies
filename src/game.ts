@@ -39,8 +39,9 @@ export default class Game {
 
   public gameLoop() {
 
-    const renderFactor: number = 0.005;
-
+    const renderFactor: number = 0.02;
+    const speedFactor: number = 0.005;
+    
     if(this._endGame) return;
 
     this._model.rows.forEach((row: Row) => {
@@ -52,22 +53,18 @@ export default class Game {
         zombie.squareN = squareN;
         const zombieSquare: Square = row.squares[squareN];
 
-        // const renderFactor: number = 0.05;
-
         // If Zombie is eating a plant
         if(zombieSquare && zombieSquare.plant) {
           zombie.state = 'eating';
-          // const zombieAdvantage: number = Math.min((zombie.attack / zombieSquare.plant.toughness), 1);
-          const zombieAdvantage: number = zombie.attack / zombieSquare.plant.toughness;
-          const plantLoss = (zombieAdvantage) * renderFactor;
           
-          const plantAdvantage: number = zombieSquare.plant.toughness / zombie.attack;
-          const zombieLoss = (plantAdvantage) * renderFactor;
-          
-          zombie.health -= zombieLoss;
+          const plant:Plant = zombieSquare.plant;
 
-          // zombieSquare.plant.health -= (1 - removeAmount);
-          zombieSquare.plant.health -= plantLoss;
+          const plantAttack = (plant.attack + plant.toughness) / 2 * renderFactor;
+          const zombieAttack = (zombie.attack + zombie.toughness) / 2 * renderFactor;;
+          
+          zombie.health -= plantAttack;
+          plant.health -= zombieAttack;
+
           if (zombie.health <= 0) {
             zombie.parent.removeZombie(zombie);
           }
@@ -80,7 +77,7 @@ export default class Game {
           if(zombie.state) { 
             zombie.state = '';
           }
-          zombie.progress += zombie.speed * 0.002;
+          zombie.progress += zombie.speed * speedFactor;
         }
 
         // Destroy Zombie when reaches end 
@@ -90,7 +87,7 @@ export default class Game {
       });
 
       if(this.randomAdd() && row.zombies.length < 1) {
-        const typeID: number = 0; //Math.round(Math.random());
+        const typeID: number = Math.round(Math.random());
         row.addZombie(this._entityManager.createZombie(typeID));
       }
 

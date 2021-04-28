@@ -212,9 +212,9 @@ export default class Renderer {
           //zombieEl.innerHTML = zombie.squareN + '';
           zombieEl.style.left = `${this._zombieStartX - (zombie.progress * this._zombieStartX)}px`;
           // zombieEl.classList.add(zombie.state);
-          if (this.debug) {
-            this.updateDebugger(zombieEl, zombie);
-          }
+          // if (this.debug) {
+          //   this.updateDebugger(zombieEl, zombie);
+          // }
         }
       });
 
